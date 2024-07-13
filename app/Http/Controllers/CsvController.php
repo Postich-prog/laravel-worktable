@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Field;
@@ -12,6 +12,16 @@ class CsvController extends Controller
         $request->validate([
             'csv_file' => 'required|file|mimes:csv,txt',
         ]);
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->fields) {
+                foreach ($user->fields as $field) {
+                    $field->delete();
+                }
+            }
+        }
+
 
         $path = $request->file('csv_file')->store('temp');
 
