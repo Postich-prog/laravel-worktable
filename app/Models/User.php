@@ -44,4 +44,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function fields()
+    {
+        return $this->hasMany('App\Models\Field', 'owner_id');
+    }
 }
