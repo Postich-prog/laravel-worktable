@@ -13,13 +13,10 @@ class CsvController extends Controller
             'csv_file' => 'required|file|mimes:csv,txt',
         ]);
 
-        if (Auth::check()) {
-            $user = Auth::user();
-            if ($user->fields) {
-                foreach ($user->fields as $field) {
-                    $field->delete();
-                }
-            }
+        $user_id = auth()->user()->id;
+        $fields = Field::where('owner_id', $user_id)->get();
+        foreach ($fields as $field) {
+            $field->delete();
         }
 
 
@@ -37,12 +34,12 @@ class CsvController extends Controller
             $data[] = [
                 'name' => trim($name),
                 'number' => trim($numbers[$counter]),
-                'owner_id' => 1
+                'owner_id' => $request->user()->id,
             ];
             Field::insert($data);
             $counter++;
         }
-        return redirect()->back()->with('success', 'CSV file has been uploaded successfully.');
+        return redirect('/dashboard');
     }
 
     public function uploadForm()

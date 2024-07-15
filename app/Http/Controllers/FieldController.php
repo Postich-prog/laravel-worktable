@@ -8,10 +8,15 @@ use App\Models\Field;
 
 class FieldController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        $fields = Field::get();
-        return view('index', compact('fields'));
+        $user_id = auth()->user()->id;
+        $fields = Field::where('owner_id', $user_id)->get();
+        if (is_null($fields) || $fields->isEmpty()) {
+            $fields = [];
+        }
+
+        return view('dashboard', compact('fields'));
     }
 
     public function update(Request $request)
