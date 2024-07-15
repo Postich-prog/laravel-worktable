@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CsvController;
+use App\Http\Controllers\FieldController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,9 +16,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', 'App\Http\Controllers\FieldController@dashboard')->name('dashboard');
 });
 
 Route::get('fields/', [FieldController::class, 'index'])

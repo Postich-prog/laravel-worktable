@@ -8,10 +8,10 @@ use App\Models\Field;
 
 class FieldController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
         $fields = Field::get();
-        return view('index', compact('fields'));
+        return view('dashboard', compact('fields'));
     }
 
     public function update(Request $request)
