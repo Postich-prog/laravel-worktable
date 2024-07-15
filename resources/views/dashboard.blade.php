@@ -8,7 +8,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <input id="myInput" type="text" placeholder="Search..">
+                <input id="myInput" type="text" placeholder="Поиск..">
+                <a href="{{ route('csv.upload')}}" class="btn btn-primary">Новая таблица</a>
                 <table id="myTable" class="table table-striped">
                     <thead>
                     <tr>
@@ -26,7 +27,7 @@
                                 <a href="" class="updateNumber" data-name="number" data-type="text" data-pk="{{ $field->id }}" data-title="Enter number">{{ $field->number }}</a>
                             </td>
                             <td>
-                                <a class="deleteField btn btn-xs btn-danger" data-id="{{ $field->id }}">Delete</a>
+                                <a class="deleteField btn btn-xs btn-danger" data-id="{{ $field->id }}">Удалить</a>
                             </td>
                         </tr>
                     @endforeach

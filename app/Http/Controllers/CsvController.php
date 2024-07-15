@@ -37,12 +37,12 @@ class CsvController extends Controller
             $data[] = [
                 'name' => trim($name),
                 'number' => trim($numbers[$counter]),
-                'owner_id' => 1
+                'owner_id' => $request->user()->id,
             ];
             Field::insert($data);
             $counter++;
         }
-        return redirect()->back()->with('success', 'CSV file has been uploaded successfully.');
+        return redirect('/dashboard');
     }
 
     public function uploadForm()
