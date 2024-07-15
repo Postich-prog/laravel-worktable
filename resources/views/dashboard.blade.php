@@ -65,12 +65,8 @@
                         $.ajax(
                             {
                                 method:'POST',
-                                url: "delete/"+id,
-                                data: {_token: token},
-                                success: function(data)
-                                {
-                                    toastr.success('Successfully!','Delete');
-                                }
+                                url: "fields/delete/"+id,
+                                data: {_token: token}
                             });
                     });
 
