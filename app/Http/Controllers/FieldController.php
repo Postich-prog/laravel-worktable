@@ -17,14 +17,26 @@ class FieldController extends Controller
     public function update(Request $request)
     {
         if ($request->ajax()) {
-            Field::find($request->pk)
-                ->update([
-                    $request->name => $request->value
-                ]);
+            if ($request->name) {
+                Field::find($request->pk)
+                    ->update([
+                        $request->name => $request->value
+                    ]);
 
-            return response()->json(['success' => true]);
+                return response()->json(['success' => true]);
+            }
+
+            if ($request->number) {
+                Field::find($request->pk)
+                    ->update([
+                        $request->number => $request->value
+                    ]);
+
+                return response()->json(['success' => true]);
+            }
         }
     }
+
     public function delete($id)
     {
         $product = Field::find($id);

@@ -23,13 +23,13 @@
         @foreach ($fields as $field)
             <tr>
                 <td>
-                    <a href="" class="update" data-name="name" data-type="text" data-pk="{{ $field->id }}" data-title="Enter name">{{ $field->name }}</a>
+                    <a href="" class="updateName" data-name="name" data-type="text" data-pk="{{ $field->id }}" data-title="Enter name">{{ $field->name }}</a>
                 </td>
                 <td>
-                    <a href="" class="update" data-name="name" data-type="text" data-pk="{{ $field->id }}" data-title="Enter number">{{ $field->number }}</a>
+                    <a href="" class="updateNumber" data-name="number" data-type="text" data-pk="{{ $field->id }}" data-title="Enter number">{{ $field->number }}</a>
                 </td>
                 <td>
-                    <a class="deleteProduct btn btn-xs btn-danger" data-id="{{ $field->id }}">Delete</a>
+                    <a class="deleteField btn btn-xs btn-danger" data-id="{{ $field->id }}">Delete</a>
                 </td>
             </tr>
         @endforeach
@@ -44,7 +44,7 @@
         }
     });
 
-    $('.update').editable({
+    $('.updateName').editable({
         url: "{{ route('fields.update') }}",
         type: 'text',
         pk: 1,
@@ -52,7 +52,15 @@
         title: 'Enter name'
     });
 
-    $(".deleteProduct").click(function(){
+    $('.updateNumber').editable({
+        url: "{{ route('fields.update') }}",
+        type: 'text',
+        pk: 1,
+        number: 'number',
+        title: 'Enter number'
+    });
+
+    $(".deleteField").click(function(){
         $(this).parents('tr').hide();
         var id = $(this).data("id");
         var token = '{{ csrf_token() }}';
