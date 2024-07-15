@@ -12,7 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </head>
 <body>
-<table class="table table-striped">
+<input id="myInput" type="text" placeholder="Search..">
+
+<table id="myTable" class="table table-striped">
     <thead>
         <tr>
             <th scope="col">Наименование</th>
@@ -74,6 +76,15 @@
                     toastr.success('Successfully!','Delete');
                 }
             });
+    });
+
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
     });
 </script>
 </body>
