@@ -10,7 +10,7 @@ class CsvController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'csv_file' => 'required|file|mimes:csv,txt',
+            'csv_file' => 'required|file|extension:csv',
         ]);
 
         $user_id = auth()->user()->id;

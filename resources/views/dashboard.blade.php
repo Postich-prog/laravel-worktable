@@ -9,7 +9,34 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <input id="myInput" type="text" placeholder="Поиск..">
-                <a href="{{ route('csv.upload')}}" class="btn btn-primary">Новая таблица</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                    Новая таблица
+                </button>
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Добавление новой таблицы</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <form action="{{ route('csv.store') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="csv_file" accept=".csv, text/csv">
+                                    <button type="submit" class="btn btn-success">Загрузить</button>
+                                </form>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <table id="myTable" class="table table-striped">
                     <thead>
                     <tr>

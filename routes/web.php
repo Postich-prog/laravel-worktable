@@ -19,7 +19,5 @@ Route::middleware([
     Route::get('/dashboard', 'App\Http\Controllers\FieldController@dashboard')->name('dashboard');
 });
 
-Route::get('fields/', [FieldController::class, 'index'])
-    ->name('fields.index');
 Route::post('fields/', [FieldController::class, 'update'])->name('fields.update');
 Route::post('fields/delete/{id}', [FieldController::class, 'delete'])->name('fields.delete');
