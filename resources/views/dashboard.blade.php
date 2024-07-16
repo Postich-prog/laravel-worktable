@@ -68,6 +68,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                <a class="addField btn btn-xs btn-light">Добавить строку</a>
                 <script type="text/javascript">
                     $.fn.editable.defaults.mode = 'inline';
 
@@ -91,6 +92,15 @@
                         pk: 1,
                         number: 'number',
                         title: 'Enter number'
+                    });
+
+                    $(".addField").click(function (){
+                        $.ajax(
+                            {
+                                method:'POST',
+                                url: "fields/create/",
+                                data: {_token: token}
+                            });
                     });
 
                     $(".deleteField").click(function(){

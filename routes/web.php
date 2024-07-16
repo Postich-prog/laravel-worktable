@@ -20,4 +20,5 @@ Route::middleware([
 });
 
 Route::post('fields/', [FieldController::class, 'update'])->name('fields.update');
+Route::post('fields/create', [FieldController::class, 'create'])->name('fields.create');
 Route::post('fields/delete/{id}', [FieldController::class, 'delete'])->name('fields.delete');
