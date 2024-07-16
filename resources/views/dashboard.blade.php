@@ -25,7 +25,7 @@
                             <div class="modal-body">
                                 <form action="{{ route('csv.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    <input type="file" name="csv_file" accept=".csv, text/csv">
+                                    <input type="file" name="file" accept=".csv">
                                     <button type="submit" class="btn btn-success">Загрузить</button>
                                 </form>
                             </div>
@@ -37,6 +37,14 @@
                         </div>
                     </div>
                 </div>
+                @error('file')
+                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                @enderror
+                @if(session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <table id="myTable" class="table table-striped">
                     <thead>
                     <tr>

@@ -10,9 +10,8 @@ class CsvController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'csv_file' => 'required|file|mimes:csv,txt',
+            'file' => 'required|file|mimes:csv,txt',
         ]);
-
         $user_id = auth()->user()->id;
         $fields = Field::where('owner_id', $user_id)->get();
         foreach ($fields as $field) {
@@ -20,10 +19,10 @@ class CsvController extends Controller
         }
 
 
-        $path = $request->file('csv_file')->store('temp');
+        $path = $request->file('file')->store('temp');
 
 
-        $path = storage_path('app/' . $request->file('csv_file')->store('temp', 'public'));
+        $path = storage_path('app/' . $request->file('file')->store('temp', 'public'));
         $rows = file($path);
         $names = explode(',', $rows[0]);
         $numbers = explode(',', $rows[1]);
