@@ -2,12 +2,10 @@
 
 use App\Http\Controllers\CsvController;
 use App\Http\Controllers\FieldController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [HomeController::class, 'handler'])->name('handler');
 Route::get('csv/upload', [CsvController::class, 'uploadForm'])->name('csv.upload');
 Route::post('csv/store', [CsvController::class, 'store'])->name('csv.store');
 
