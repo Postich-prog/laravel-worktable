@@ -13,10 +13,6 @@ class CsvController extends Controller
             'file' => 'required|file|mimes:csv,txt',
         ]);
         $user_id = auth()->user()->id;
-        $fields = Field::where('owner_id', $user_id)->get();
-        foreach ($fields as $field) {
-            $field->delete();
-        }
 
 
         $path = $request->file('file')->store('temp');
