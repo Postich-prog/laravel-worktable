@@ -19,14 +19,23 @@ class FieldController extends Controller
         return view('dashboard', compact('fields'));
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
-        $data[] = [
-            'owner_id' => $request->user()->id,
-        ];
-        Field::insert($data);
-        return response()->json(['success' => 'success']);
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'number' => 'required|numeric',
+        ]);
+
+        $user = $request->user(); // Получить объект пользователя
+        $userId = $user->id; // Получить id пользователя
+        $validatedData['owner_id'] = $userId;
+
+        $field = Field::create($validatedData);
+
+        return redirect()->route('dashboard');
     }
+
+
 
     public function update(Request $request)
     {
