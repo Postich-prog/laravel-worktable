@@ -1,38 +1,83 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Дэшборд') }}
         </h2>
     </x-slot>
-
+    <style>
+        .editable-buttons{
+            display: none;
+        }
+    </style>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <input id="myInput" type="text" placeholder="Поиск..">
-                <a href="{{ route('csv.upload')}}" class="btn btn-primary">Новая таблица</a>
+                <div style="display: flex; justify-content: space-between; align-items: center">
+                    <input style="border-radius: 10px; margin-left: 5px; margin-right: 5px;margin-top: 5px" id="myInput" type="text"  placeholder="Поиск..">
+                    <button type="button" class="btn btn-primary"style="margin-right: 5px;margin-top: 2px" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Импорт
+                    </button>
+                </div>
+
+
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Добавление новой таблицы</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <form action="{{ route('csv.store') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="file" accept=".csv">
+                                    <button type="submit" class="btn btn-success">Загрузить</button>
+                                </form>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @error('file')
+                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                @enderror
+                @if(session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <table id="myTable" class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col">Наименование</th>
-                        <th scope="col">Некое число</th>
+                        <th style="text-align: left" class="col-md-6" scope="col">Наименование</th>
+                        <th style="text-align: left" class="col-md-5" scope="col">Некое число</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($fields as $field)
                         <tr>
-                            <td>
+                            <td class="align-middle" style="text-align: left">
                                 <a href="" class="updateName" data-name="name" data-type="text" data-pk="{{ $field->id }}" data-title="Enter name">{{ $field->name }}</a>
                             </td>
-                            <td>
+                            <td style="text-align: left" class="align-middle">
                                 <a href="" class="updateNumber" data-name="number" data-type="text" data-pk="{{ $field->id }}" data-title="Enter number">{{ $field->number }}</a>
                             </td>
-                            <td>
-                                <a class="deleteField btn btn-xs btn-danger" data-id="{{ $field->id }}">Удалить</a>
+                            <td class="align-middle">
+                                <a class="deleteField btn" data-id="{{ $field->id }}"><img style="width: 1.5vw" src="{{asset('images/del.png')}}" alt="delete"></a>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                <a class="addField btn btn-xs btn-light">Добавить строку</a>
                 <script type="text/javascript">
                     $.fn.editable.defaults.mode = 'inline';
 
@@ -56,6 +101,15 @@
                         pk: 1,
                         number: 'number',
                         title: 'Enter number'
+                    });
+
+                    $(".addField").click(function (){
+                        $.ajax(
+                            {
+                                method:'POST',
+                                url: "fields/create/",
+                                data: {_token: token}
+                            });
                     });
 
                     $(".deleteField").click(function(){

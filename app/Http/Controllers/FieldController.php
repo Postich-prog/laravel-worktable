@@ -19,6 +19,15 @@ class FieldController extends Controller
         return view('dashboard', compact('fields'));
     }
 
+    public function create(Request $request)
+    {
+        $data[] = [
+            'owner_id' => $request->user()->id,
+        ];
+        Field::insert($data);
+        return response()->json(['success' => 'success']);
+    }
+
     public function update(Request $request)
     {
         if ($request->ajax()) {
@@ -44,8 +53,8 @@ class FieldController extends Controller
 
     public function delete($id)
     {
-        $product = Field::find($id);
-        $product->delete();
+        $field = Field::find($id);
+        $field->delete();
         return response()->json(['success' => 'success']);
     }
 }
