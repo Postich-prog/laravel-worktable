@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Field;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('auth.login');
+    }
+    public function handler()
+    {
+        if (auth()->check()) {
+            return redirect('/dashboard');
+        }
+        return view('auth.login');
+
     }
 }
