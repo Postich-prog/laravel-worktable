@@ -75,9 +75,23 @@
                             </td>
                         </tr>
                     @endforeach
+                    <form id="add-field-form" action="{{ route('fields.store') }}" method="POST">
+                        @csrf
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="number" name="number" required>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-primary">Add Field</button>
+                            </td>
+                        </tr>
+                    </form>
+
                     </tbody>
                 </table>
-                <a class="addField btn btn-xs btn-light">Добавить строку</a>
                 <script type="text/javascript">
                     $.fn.editable.defaults.mode = 'inline';
 
@@ -103,15 +117,6 @@
                         title: 'Enter number'
                     });
 
-                    $(".addField").click(function (){
-                        $.ajax(
-                            {
-                                method:'POST',
-                                url: "fields/create/",
-                                data: {_token: token}
-                            });
-                    });
-
                     $(".deleteField").click(function(){
                         $(this).parents('tr').hide();
                         var id = $(this).data("id");
@@ -132,6 +137,8 @@
                             });
                         });
                     });
+
+
                 </script>
             </div>
         </div>
