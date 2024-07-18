@@ -8,6 +8,17 @@
         .editable-buttons{
             display: none;
         }
+        #name:focus {
+            outline: none;
+            box-shadow: none;
+            border-color: initial;
+        }
+        #number:focus {
+            outline: none;
+            box-shadow: none;
+            border-color: initial;
+        }
+
     </style>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -18,7 +29,11 @@
                         Импорт
                     </button>
                 </div>
-
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <div class="modal" id="myModal">
                     <div class="modal-dialog">
@@ -76,13 +91,13 @@
                         @csrf
                         <tr>
                             <td>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <input placeholder="Введите наименование..." style="border: 0;border-radius: 15px;background-color: #00000000;outline:none;"  type="text" class="form-control" id="name" name="name" required>
                             </td>
                             <td>
-                                <input type="text" class="form-control" id="number" name="number" required>
+                                <input placeholder="Введите число..."  style="border: 0;border-radius: 15px;background-color: #00000000" type="text" class="form-control" id="number" name="number" required>
                             </td>
                             <td>
-                                <button type="submit" class="btn btn-primary">Add Field</button>
+                                <button type="submit" class="btn btn-primary">Добавить</button>
                             </td>
                         </tr>
                     </form>
@@ -103,7 +118,12 @@
                         type: 'text',
                         pk: 1,
                         name: 'name',
-                        title: 'Enter name'
+                        title: 'Enter name',
+                        validate: function(value) {
+                            if (value.length > 40) {
+                                return 'Поле не должно превышать 40 символов.';
+                            }
+                        }
                     });
 
                     $('.updateNumber').editable({
@@ -111,7 +131,15 @@
                         type: 'text',
                         pk: 1,
                         number: 'number',
-                        title: 'Enter number'
+                        title: 'Enter number',
+                        validate: function(value) {
+                            if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+                                return 'Поле должно содержать только числа.';
+                            }
+                            if (value.length > 10) {
+                                return 'Поле не должно превышать 10 символов.';
+                            }
+                        }
                     });
 
                     $(".deleteField").click(function(){

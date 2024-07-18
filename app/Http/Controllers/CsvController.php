@@ -12,28 +12,41 @@ class CsvController extends Controller
         $request->validate([
             'file' => 'required|file|mimes:csv,txt',
         ]);
+
         $user_id = auth()->user()->id;
 
+        $path = $request->file('file')->store('temp', 'public');
 
-        $path = $request->file('file')->store('temp');
-
-
-        $path = storage_path('app/' . $request->file('file')->store('temp', 'public'));
+        $path = storage_path('app/public/' . $path);
         $rows = file($path);
-        $names = explode(',', $rows[0]);
-        $numbers = explode(',', $rows[1]);
+
+        $names = rtrim($rows[0], ",");
+        $numbers = rtrim($rows[1], ",");
+
+        $names = explode(',', $names);
+        $numbers = explode(',', $numbers);
+
+        foreach ($numbers as $number) {
+            if (!is_numeric($number)) {
+                session()->flash('error', 'Во второй строке CSV-файла должны находиться только числа.');
+                return back();
+            }
+        }
 
         $counter = 0;
         foreach ($names as $name) {
-            $data = [];
-            $data[] = [
-                'name' => trim($name),
-                'number' => trim($numbers[$counter]),
-                'owner_id' => $request->user()->id,
-            ];
-            Field::insert($data);
+            if (isset($numbers[$counter])) {
+                $data = [];
+                $data[] = [
+                    'name' => trim($name),
+                    'number' => trim($numbers[$counter]),
+                    'owner_id' => $user_id,
+                ];
+                Field::insert($data);
+            }
             $counter++;
         }
+
         return redirect('/dashboard');
     }
 

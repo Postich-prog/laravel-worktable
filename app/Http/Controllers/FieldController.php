@@ -50,10 +50,16 @@ class FieldController extends Controller
             }
 
             if ($request->number) {
-                Field::find($request->pk)
-                    ->update([
-                        $request->number => $request->value
-                    ]);
+                if (!is_numeric($request->value)) {
+                    session()->flash('error', 'Во второй строке CSV-файла должны находиться только числа.');
+                    return back();
+                } else {
+                    Field::find($request->pk)
+                        ->update([
+                            $request->number => $request->value
+                        ]);
+                }
+
 
                 return response()->json(['success' => true]);
             }
