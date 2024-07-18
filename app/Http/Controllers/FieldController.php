@@ -26,8 +26,8 @@ class FieldController extends Controller
             'number' => 'required|numeric',
         ]);
 
-        $user = $request->user(); // Получить объект пользователя
-        $userId = $user->id; // Получить id пользователя
+        $user = $request->user();
+        $userId = $user->id;
         $validatedData['owner_id'] = $userId;
 
         $field = Field::create($validatedData);

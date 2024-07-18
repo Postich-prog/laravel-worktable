@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -46,7 +47,8 @@ class CsvController extends Controller
             }
             $counter++;
         }
-
+        Storage::delete('public/' . $path);
+        Storage::delete('public/temp' . $path);
         return redirect('/dashboard');
     }
 
