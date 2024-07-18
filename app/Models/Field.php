@@ -12,5 +12,6 @@ class Field extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    protected $fillable = ['name', 'number', 'owner_id'];
     use HasFactory;
 }
