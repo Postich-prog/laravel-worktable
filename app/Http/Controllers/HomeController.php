@@ -14,24 +14,24 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function index()
     {
-        return view('auth.login');
+        return redirect('/register');
     }
     public function handler()
     {
         if (auth()->check()) {
             return redirect('/dashboard');
         }
-        return view('auth.login');
+        return redirect('/register');
 
     }
 }

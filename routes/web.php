@@ -6,8 +6,6 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'handler'])->name('handler');
-Route::get('csv/upload', [CsvController::class, 'uploadForm'])->name('csv.upload');
-Route::post('csv/store', [CsvController::class, 'store'])->name('csv.store');
 
 Route::middleware([
     'auth:sanctum',
@@ -20,3 +18,6 @@ Route::middleware([
 Route::post('fields/update', [FieldController::class, 'update'])->name('fields.update');
 Route::post('fields', [FieldController::class, 'store'])->name('fields.store');
 Route::post('fields/delete/{id}', [FieldController::class, 'delete'])->name('fields.delete');
+
+Route::get('csv/upload', [CsvController::class, 'uploadForm'])->name('csv.upload');
+Route::post('csv/store', [CsvController::class, 'store'])->name('csv.store');
